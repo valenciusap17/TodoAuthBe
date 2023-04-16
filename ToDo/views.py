@@ -28,7 +28,13 @@ def post_data(request):
         print(body.get("message_data"))
         message_data = body.get("message_data")
         date_data = body.get("date_data")
-        new_messsage = ToDoMessage(message_data = message_data, date_data=date_data)
+        category = body.get("category")
+
+        chosenCategory = Category.objects.get(pk=category)
+        print(chosenCategory.category_data)
+
+        new_messsage = ToDoMessage(message_data = message_data, date_data=date_data, category=chosenCategory)
+        print(new_messsage.category.category_data)
         new_messsage.save()
         return HttpResponse()
     
@@ -90,3 +96,18 @@ def register(request):
         return JsonResponse({'token': token.decode('utf-8')})
     else :
         return JsonResponse({'error': "Invalid request method"}, status=405)
+    
+@csrf_exempt    
+def post_category(request):
+    if request.method == "POST":
+        body = json.loads(request.body)
+        color = body.get('color')
+        categoryData = body.get('category_data')
+        new_category = Category(color=color, category_data=categoryData)
+        new_category.save()
+        return HttpResponse()
+
+@csrf_exempt    
+def category_json(request):
+    category = Category.objects.all()
+    return HttpResponse(serializers.serialize("json", category), content_type="application/json")

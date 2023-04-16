@@ -3,10 +3,15 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 
 # Create your models here.
+class Category(models.Model):
+    category_data = models.TextField()
+    color = models.TextField()
+
 class ToDoMessage(models.Model):
     message_data = models.TextField()
     date_data = models.DateTimeField(null=True)
     is_finished = models.BooleanField(default=False)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
 class UserManager(AbstractBaseUser):
     def create_user(self, email, username, password=None):

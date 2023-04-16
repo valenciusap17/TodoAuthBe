@@ -10,4 +10,6 @@ urlpatterns = [
     path('delete_data/', delete_data, name="delete_data"),
     path('edit_data/', edit_data, name="edit_data"),
     path('edit_finished/', finished_data, name="finished_data"),
+    path('post_category/', post_category, name='post_category'),
+    path('category_json/', category_json, name='category_json')
 ]
